@@ -1,0 +1,29 @@
+{
+  "name": "expresscafe",
+  "version": "1.0.0",
+  "description": "Express Cafe",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "Cafe"
+  ],
+  "author": "Fadi Abdin",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@stash.expressco.com/ucp/expresscafe.git"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "method-override": "^2.3.6",
+    "mongoose": "^4.5.2",
+    "morgan": "^1.7.0"
+  }
+}

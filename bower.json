@@ -1,0 +1,25 @@
+{
+  "name": "expresscafe",
+  "description": "Express Cafe",
+  "main": "public_html\\index.html",
+  "authors": [
+    "Fadi Abdin"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "Cafe"
+  ],
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public_html/js/bower_components/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6"
+  }
+}
