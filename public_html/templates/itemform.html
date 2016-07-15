@@ -1,0 +1,54 @@
+<div ng-controller="AdminCtrl" class="container" style="padding-top: 48px;">
+
+    <div class="page-header">
+        <h1>Today's Menu <small>Thursday, July 14, 2016</small></h1>
+    </div>
+    
+    
+    <form>
+
+        <div class='input-group date' id='datetimepicker1'>
+            <input type='text' class="form-control" />
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
+         <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+                
+                console.log('datapicker');
+            });
+        </script>
+        
+        <div class="form-group">
+            <label for="exampleInputEmail1">Category</label>
+            <select type="text" class="form-control" id="exampleInputEmail1" placeholder="Category">
+                <option>Soup</option>
+                <option>Entrée</option>
+                <option>Deli</option>
+                <option>Pasta</option>
+                <option>Grill</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">Menu Item</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="(ie. Suchi)">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Description</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Discripiton of the item">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputFile">Photo</label>
+            <input type="file" id="exampleInputFile">
+            <p class="help-block">Must be at least 200 x 200</p>
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+
+
+</div>
+
