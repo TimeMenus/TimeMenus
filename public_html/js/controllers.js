@@ -8,14 +8,14 @@ angular.module('controllers', ['services'])
         .controller('AdminCtrl', function ($scope, UserService, TimeService) {
 
             var categories = firebase.database().ref('categories').limitToLast(100);
-    
+
             $scope.categories = [];
-            
+
             categories.on('child_added', function (data) {
                 console.log(data.val());
                 $scope.categories.push(data.val());
             });
-            
+
 
 //            console.log(categories);
 
@@ -74,10 +74,12 @@ angular.module('controllers', ['services'])
                         // [END_EXCLUDE]
                     }).then(function (data) {
 
-                        console.log(data);
-                        UserService.setUser(data);
+                        if (data !== undefined) {
+                            console.log(data);
+                            UserService.setUser(data);
 //                        $location.url('/admin');
-                        loggedInTrigger();
+                            loggedInTrigger();
+                        }
 
                     });
 //        // [END authwithemail]
