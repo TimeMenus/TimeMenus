@@ -6,7 +6,7 @@ angular.module('cafe', ['ngRoute', 'controllers','ngAnimate','ui.bootstrap']).
                 $routeProvider.when('/', {
                     templateUrl: 'templates/dashboard.html',
                     controller: 'DashboardCtrl'
-                }).when('/list', {
+                }).when('/list/:categoryId', {
                     templateUrl: 'templates/list.html',
                     controller: 'ListCtrl'
                 }).when('/admin', {
