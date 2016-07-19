@@ -23,7 +23,7 @@ angular.module('controllers', ['services'])
 
 
             var soup = {name: "Soup", discription: "Soup of the day"};
-            
+
             var menu = {date: TimeService.getTodayDate(),
                 note: "Sushi is not only delicious, but it’s also very good for you. It is a wonderful bonus to be able to eat the food you love without paying the price for your indulgence. Great claims have been made for the health benefits of the typical Japanese diet of fish and rice. For example, average life expectancy for both women and men in Japan is one of the highest in the world."
             };
@@ -202,12 +202,11 @@ angular.module('controllers', ['services'])
 
 
         })
-        .controller('ItemFormCtrl', function ($scope, $uibModalInstance, categories) {
+        .controller('ItemFormCtrl', function ($scope, $uibModalInstance, categories,date) {
 
             $scope.categories = categories;
 
             $scope.ok = function () {
-//                $uibModalInstance.close($scope.selected.item);
                 $uibModalInstance.close();
             };
 
@@ -217,29 +216,32 @@ angular.module('controllers', ['services'])
         })
         .controller('ItemFormDisplayCtrl', function ($scope, $uibModal, $log, MenuService) {
 
-            $scope.open = function (size) {
+            $scope.categories = [];
+            MenuService.getCategories(function (data) {
+                $scope.categories = data;
+            });
+
+
+            $scope.open = function (date) {
+                
+                console.log(date);
 
                 var modalInstance = $uibModal.open({
                     animation: $scope.animationsEnabled,
                     templateUrl: 'templates/itemform.html',
                     controller: 'ItemFormCtrl',
-                    size: size,
                     resolve: {
                         categories: function () {
-
-                            $scope.categories = [];
-                            MenuService.getCategories(function (data) {
-                                $scope.categories = data;
-                            });
-
                             return $scope.categories;
+                        },
+                        
+                        date: function(){
+                            return date;
                         }
-
                     }
                 });
 
-                modalInstance.result.then(function (selectedItem) {
-                    $scope.selected = selectedItem;
+                modalInstance.result.then(function () {
                 }, function () {
                     $log.info('Modal dismissed at: ' + new Date());
                 });
