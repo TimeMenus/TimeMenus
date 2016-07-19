@@ -1,20 +1,79 @@
 'use strict';
 angular.module('controllers', ['services'])
-        .controller('ListCtrl', function () {
+        .controller('ListCtrl', function ($scope, UserService, ItemService, MenuService) {
 
-            console.log('List');
+            $scope.admin = false;
+
+            if (UserService.isLoggedIn()) {
+                console.log("admin");
+                $scope.admin = true;
+            } else {
+                console.log("not admin");
+            }
+
+            ItemService.getItems();
 
         })
-        .controller('AdminCtrl', function ($scope, UserService, TimeService) {
-
-            var categories = firebase.database().ref('categories').limitToLast(100);
+        .controller('AdminCtrl', function ($scope, UserService, TimeService, MenuService) {
 
             $scope.categories = [];
-
-            categories.on('child_added', function (data) {
-                console.log(data.val());
-                $scope.categories.push(data.val());
+            MenuService.getCategories(function (data) {
+                $scope.categories = data;
             });
+
+
+            var soup = {name: "Soup", discription: "Soup of the day"};
+            
+            var menu = {date: TimeService.getTodayDate(),
+                note: "Sushi is not only delicious, but it’s also very good for you. It is a wonderful bonus to be able to eat the food you love without paying the price for your indulgence. Great claims have been made for the health benefits of the typical Japanese diet of fish and rice. For example, average life expectancy for both women and men in Japan is one of the highest in the world."
+            };
+
+            var item = {
+                id: "1",
+                categoryId: "-KMy-TrOornKuDEgcJjB",
+                name: "Creamy Potato GF.",
+                description: ".Long grain and wild rice, celery, onions, carrots and diced chicken simmered in chicken broth embellished with cream and select herbs. Available in cup, bowl or bread bowl.",
+                photo: "",
+                special: true
+            };
+
+            var items = [item];
+//            
+//            var testRef = firebase.database().ref('menues/-KMyjcM0BugW-ZorUuvt/items/0');
+//            
+//            testRef.update(item);
+//            testRef.on("child_added",function(child){
+//                console.log(child.val());
+//            });
+//            
+
+            var menuReference = firebase.database().ref('menues');
+            menuReference.orderByChild("date").on("child_added", function (child) {
+                console.log(child.val());
+            });
+
+            menu.items = items;
+
+//            menuReference.push(menu);
+
+//            categories.push(soup);
+//            categories.push("Entrée");
+//            categories.push("Deli");
+//            categories.push("Pasta");
+//            categories.push("Grill");
+
+
+
+//            var ref = categories.orderByValue().on("child_added",function(data){
+//                console.log(data.val());
+//            });
+//            
+            $scope.categories = [];
+
+//            categories.on('child_added', function (data) {
+//                console.log(data.val());
+//                $scope.categories.push(data.val());
+//            });
 
 
 //            console.log(categories);
@@ -25,9 +84,25 @@ angular.module('controllers', ['services'])
 //         console.log(UserService.getUser());
 
         })
-        .controller('DashboardCtrl', function () {
+        .controller('DashboardCtrl', function ($scope, MenuService, TimeService) {
 
-            console.log('Dahsboard');
+            function callBack(menuKey) {
+                console.log("MenuKey " + menuKey);
+                MenuService.getMenu(menuKey, function (menu) {
+                    console.log("displayMenu");
+                    $scope.menu = menu;
+                });
+            }
+
+            MenuService.getMenuKey(TimeService.getTodayDate(), callBack);
+
+
+            $scope.categories = [];
+
+            MenuService.getCategories(function (data) {
+                //$scope.categories.push(category);
+                $scope.categories = data;
+            });
 
         })
         .controller('LoginCtrl', function ($scope, $location, UserService) {
@@ -127,38 +202,39 @@ angular.module('controllers', ['services'])
 
 
         })
-        .controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, items) {
+        .controller('ItemFormCtrl', function ($scope, $uibModalInstance, categories) {
 
-            $scope.items = items;
-            $scope.selected = {
-                item: $scope.items[0]
-            };
+            $scope.categories = categories;
 
             $scope.ok = function () {
-                $uibModalInstance.close($scope.selected.item);
+//                $uibModalInstance.close($scope.selected.item);
+                $uibModalInstance.close();
             };
 
             $scope.cancel = function () {
                 $uibModalInstance.dismiss('cancel');
             };
         })
-        .controller('ModalDemoCtrl', function ($scope, $uibModal, $log) {
-
-            $scope.items = ['item1', 'item2', 'item3'];
-
-            $scope.animationsEnabled = true;
+        .controller('ItemFormDisplayCtrl', function ($scope, $uibModal, $log, MenuService) {
 
             $scope.open = function (size) {
 
                 var modalInstance = $uibModal.open({
                     animation: $scope.animationsEnabled,
-                    templateUrl: 'myModalContent.html',
-                    controller: 'ModalInstanceCtrl',
+                    templateUrl: 'templates/itemform.html',
+                    controller: 'ItemFormCtrl',
                     size: size,
                     resolve: {
-                        items: function () {
-                            return $scope.items;
+                        categories: function () {
+
+                            $scope.categories = [];
+                            MenuService.getCategories(function (data) {
+                                $scope.categories = data;
+                            });
+
+                            return $scope.categories;
                         }
+
                     }
                 });
 
@@ -167,10 +243,6 @@ angular.module('controllers', ['services'])
                 }, function () {
                     $log.info('Modal dismissed at: ' + new Date());
                 });
-            };
-
-            $scope.toggleAnimation = function () {
-                $scope.animationsEnabled = !$scope.animationsEnabled;
             };
 
         });
