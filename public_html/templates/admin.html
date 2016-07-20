@@ -1,11 +1,20 @@
 <div class="container" style="padding-top: 48px;" ng-controller="ItemFormDisplayCtrl">
 
     <div class="page-header">
-        <h1>Today's Menu <small>{{todayDate}}</small> <div class="glyphicon glyphicon-plus btn btn-default btn-sm" style="font-size: 25px; float: right; " ng-click="open(todayDate)"></div></h1>
-
+        <h1>Today's Menu <small>{{todayDate}}</small> 
+            <div ng-if="!createNewMenu" class="glyphicon glyphicon-plus btn btn-default btn-sm" style="font-size: 25px; float: right; " ng-click="open(todayDate)"></div>
+        </h1>
+        
+        <div class="form-group">
+            <textarea class="form-control" rows="3" ng-model="menu.note">
+            {{menu.note}}
+            </textarea>
+            <button ng-if="createNewMenu" type="button" class="btn btn-default" ng-click="createMenu(todayDate)">Create Menu</button>
+            <button ng-if="!createNewMenu" type="button" class="btn btn-default" ng-click="updateNote(todayDate)">Update</button>
+        </div>
     </div>
 
-    <div class="blog-header" ng-repeat="(key,value) in categories">
+    <div class="blog-header" ng-repeat="(key,value) in categories" ng-if="!createNewMenu">
         <h1 class="h3">{{value}}</h1>
 
         <hr class="featurette-divider">

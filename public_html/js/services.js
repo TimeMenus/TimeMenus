@@ -34,14 +34,17 @@ angular.module('services', [])
             };
 
         })
-        .service('ItemService', function () {
+        .service('ItemService', function (MenuService) {
 
             this.getItems = function () {
 
             };
 
-            this.addItem = function () {
-
+            this.addItem = function (menuKey, item) {
+                
+                console.log(menuKey);
+                console.log(item);
+                
             };
 
             this.deleteItem = function () {
@@ -54,8 +57,9 @@ angular.module('services', [])
 
         })
         .service('MenuService', function () {
-            this.startMenu = function () {
-
+            this.createMenu = function (menu) {
+                var menuReference = firebase.database().ref('menues');
+                menuReference.push(menu);
             };
 
             this.getMenu = function (key, callback) {
@@ -83,8 +87,14 @@ angular.module('services', [])
                 });
             };
 
-            this.updateMenu = function () {
-
+            this.updateMenu = function (date,menu) {
+                this.getMenuKey(date,function(key){
+                    
+                     var menuReference = firebase.database().ref('menues/'+key);
+                     menu.date=date;
+                    menuReference.update(menu);
+                    
+                });
             };
             
             this.getCategories = function (callback){

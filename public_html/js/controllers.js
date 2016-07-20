@@ -17,16 +17,50 @@ angular.module('controllers', ['services'])
         .controller('AdminCtrl', function ($scope, UserService, TimeService, MenuService) {
 
             $scope.categories = [];
+            $scope.createNewMenu= false;
+    
             MenuService.getCategories(function (data) {
                 $scope.categories = data;
             });
 
+            MenuService.getMenuKey(TimeService.getTodayDate(), function (key) {
+                if (key === null) {
+                    console.log("No Menu");
+                    $scope.createNewMenu= true;
+                }else {
+                    MenuService.getMenu(key,function(menu){
+                        console.log(menu);
+                       $scope.menu=menu; 
+                    });
+                }
+                
+            });
+            
+           $scope.createMenu = function(date){
+             
+               $scope.menu.date=date;
+               
+               MenuService.createMenu($scope.menu);
+               
+//             $scope.menu.date=date;
+//             console.log($scope.menu);
+             
+               
+           };
+           
+           $scope.updateNote = function(date){
+               
+               MenuService.updateMenu(date,$scope.menu);
+               
+           };
+           
+
 
             var soup = {name: "Soup", discription: "Soup of the day"};
 
-            var menu = {date: TimeService.getTodayDate(),
-                note: "Sushi is not only delicious, but it’s also very good for you. It is a wonderful bonus to be able to eat the food you love without paying the price for your indulgence. Great claims have been made for the health benefits of the typical Japanese diet of fish and rice. For example, average life expectancy for both women and men in Japan is one of the highest in the world."
-            };
+//            var menu = {date: TimeService.getTodayDate(),
+//                note: "Sushi is not only delicious, but it’s also very good for you. It is a wonderful bonus to be able to eat the food you love without paying the price for your indulgence. Great claims have been made for the health benefits of the typical Japanese diet of fish and rice. For example, average life expectancy for both women and men in Japan is one of the highest in the world."
+//            };
 
             var item = {
                 id: "1",
@@ -47,12 +81,12 @@ angular.module('controllers', ['services'])
 //            });
 //            
 
-            var menuReference = firebase.database().ref('menues');
-            menuReference.orderByChild("date").on("child_added", function (child) {
-                console.log(child.val());
-            });
-
-            menu.items = items;
+//            var menuReference = firebase.database().ref('menues');
+//            menuReference.orderByChild("date").on("child_added", function (child) {
+//                console.log(child.val());
+//            });
+//
+//            menu.items = items;
 
 //            menuReference.push(menu);
 
@@ -202,12 +236,31 @@ angular.module('controllers', ['services'])
 
 
         })
-        .controller('ItemFormCtrl', function ($scope, $uibModalInstance, categories,date) {
+        .controller('ItemFormCtrl', function ($scope, $uibModalInstance, categories, date, MenuService, ItemService) {
 
             $scope.categories = categories;
 
             $scope.ok = function () {
                 $uibModalInstance.close();
+
+                MenuService.getMenuKey(date, function (key) {
+
+                    if (key === null) {
+                        console.log("need to create a menu");
+
+                    } else {
+
+                    }
+
+                    ItemService.addItem(key, $scope.item, function () {
+                        console.log("Item Updated");
+                    });
+                });
+
+
+
+
+
             };
 
             $scope.cancel = function () {
@@ -223,7 +276,7 @@ angular.module('controllers', ['services'])
 
 
             $scope.open = function (date) {
-                
+
                 console.log(date);
 
                 var modalInstance = $uibModal.open({
@@ -234,8 +287,7 @@ angular.module('controllers', ['services'])
                         categories: function () {
                             return $scope.categories;
                         },
-                        
-                        date: function(){
+                        date: function () {
                             return date;
                         }
                     }
