@@ -18,6 +18,7 @@ angular.module('controllers', ['services'])
 
             $scope.categories = [];
             $scope.createNewMenu= false;
+            $scope.menu = {};
     
             MenuService.getCategories(function (data) {
                 $scope.categories = data;
@@ -137,7 +138,7 @@ angular.module('controllers', ['services'])
                 //$scope.categories.push(category);
                 $scope.categories = data;
             });
-
+            
         })
         .controller('LoginCtrl', function ($scope, $location, UserService) {
 
@@ -256,11 +257,6 @@ angular.module('controllers', ['services'])
                         console.log("Item Updated");
                     });
                 });
-
-
-
-
-
             };
 
             $scope.cancel = function () {
