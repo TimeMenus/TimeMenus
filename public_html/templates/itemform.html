@@ -8,7 +8,7 @@
         <fieldset class="form-group">
             <label for="itemCategory">Category</label>
             <select ng-model="item.category" class="form-control" id="itemCategory">
-                <option ng-repeat="cat in categories">{{ cat}}</option>
+                <option ng-repeat="(key,value) in categories" value="{{key}}">{{ value }}</option>
             </select>
         </fieldset>
 
