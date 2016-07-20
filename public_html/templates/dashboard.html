@@ -1,11 +1,19 @@
-<div class="jumbotron" style="padding-bottom: 20px;">
+<div class="jumbotron" style="padding-bottom: 20px;" ng-if="menu != null">
     <div class="container">
         <img src="images/wellnessnow.png"/>
         <p>{{menu.note}}</p>             
     </div>
 </div>
 
-<div class="container">
+
+<div class="jumbotron" style="background: white; text-align: center;" ng-if="menu == null">
+    <div class="container">
+        
+        <p>Today's menu is not here yet, come back later. </p>             
+    </div>
+</div>
+
+<div class="container" ng-if="menu != null">
 
     <div class="row" ng-repeat="(key,value) in categories">
         <div class="col-md-4" ng-repeat="item in menu.items" >
