@@ -17,44 +17,37 @@ angular.module('controllers', ['services'])
         .controller('AdminCtrl', function ($scope, UserService, TimeService, MenuService) {
 
             $scope.categories = [];
-            $scope.createNewMenu= false;
+            $scope.createNewMenu = false;
             $scope.menu = {};
-    
+            $scope.todayDate = TimeService.getTodayDate();
+
             MenuService.getCategories(function (data) {
                 $scope.categories = data;
             });
 
             MenuService.getMenuKey(TimeService.getTodayDate(), function (key) {
                 if (key === null) {
-                    console.log("No Menu");
-                    $scope.createNewMenu= true;
-                }else {
-                    MenuService.getMenu(key,function(menu){
-                        console.log(menu);
-                       $scope.menu=menu; 
+                    $scope.createNewMenu = true;
+                } else {
+                    MenuService.getMenu(key, function (menu) {
+                        $scope.menu = menu;
                     });
                 }
-                
+
             });
-            
-           $scope.createMenu = function(date){
-             
-               $scope.menu.date=date;
-               
-               MenuService.createMenu($scope.menu);
-               
-//             $scope.menu.date=date;
-//             console.log($scope.menu);
-             
-               
-           };
-           
-           $scope.updateNote = function(date){
-               
-               MenuService.updateMenu(date,$scope.menu);
-               
-           };
-           
+
+            $scope.createMenu = function (date) {
+
+                $scope.menu.date = date;
+                MenuService.createMenu($scope.menu);
+            };
+
+            $scope.updateNote = function (date) {
+
+                MenuService.updateMenu(date, $scope.menu);
+
+            };
+
 
 
             var soup = {name: "Soup", discription: "Soup of the day"};
@@ -103,8 +96,6 @@ angular.module('controllers', ['services'])
 //                console.log(data.val());
 //            });
 //            
-            $scope.categories = [];
-
 //            categories.on('child_added', function (data) {
 //                console.log(data.val());
 //                $scope.categories.push(data.val());
@@ -114,31 +105,24 @@ angular.module('controllers', ['services'])
 //            console.log(categories);
 
 
-            $scope.todayDate = TimeService.getTodayDate();
 
 //         console.log(UserService.getUser());
 
         })
-        .controller('DashboardCtrl', function ($scope, MenuService, TimeService) {
+        .controller('DashboardCtrl', function ($scope, MenuService, TimeService,$firebaseObject, $firebaseArray, $firebaseAuth) {
 
             function callBack(menuKey) {
-                console.log("MenuKey " + menuKey);
                 MenuService.getMenu(menuKey, function (menu) {
-                    console.log("displayMenu");
-                    $scope.menu = menu;
+                    menu.$bindTo($scope,"menu");
                 });
             }
 
             MenuService.getMenuKey(TimeService.getTodayDate(), callBack);
 
-
-            $scope.categories = [];
-
-            MenuService.getCategories(function (data) {
-                //$scope.categories.push(category);
-                $scope.categories = data;
+            MenuService.getCategories(function (categories) {
+                $scope.categories = categories;
             });
-            
+
         })
         .controller('LoginCtrl', function ($scope, $location, UserService) {
 
@@ -242,6 +226,8 @@ angular.module('controllers', ['services'])
             $scope.categories = categories;
 
             $scope.ok = function () {
+
+                console.log("Ok Pressed");
                 $uibModalInstance.close();
 
                 MenuService.getMenuKey(date, function (key) {
@@ -250,12 +236,13 @@ angular.module('controllers', ['services'])
                         console.log("need to create a menu");
 
                     } else {
-
+                        return ItemService.addItem(key, $scope.item, function () {
+                            $uibModalInstance.close();
+                            return;
+                        });
                     }
 
-                    ItemService.addItem(key, $scope.item, function () {
-                        console.log("Item Updated");
-                    });
+
                 });
             };
 

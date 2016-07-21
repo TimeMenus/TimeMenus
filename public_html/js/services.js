@@ -41,9 +41,10 @@ angular.module('services', [])
             };
 
             this.addItem = function (menuKey, item) {
+                console.log("addItem");
                 
-                console.log(menuKey);
-                console.log(item);
+                var itemsRef = firebase.database().ref('menues/'+menuKey+'/items');
+//                itemsRef.push(item);
                 
             };
 
@@ -56,7 +57,7 @@ angular.module('services', [])
             };
 
         })
-        .service('MenuService', function () {
+        .service('MenuService', function ($firebaseObject) {
             this.createMenu = function (menu) {
                 var menuReference = firebase.database().ref('menues');
                 menuReference.push(menu);
@@ -65,10 +66,13 @@ angular.module('services', [])
             this.getMenu = function (key, callback) {
 
                 var menuReference = firebase.database().ref('menues/'+key);
+                var syncObject = $firebaseObject(menuReference);
 
-                menuReference.on("value", function (child) {
-                    callback(child.val());
+                menuReference.on("value", function () {
+
+                    callback(syncObject);
                 });
+                
 
             };
 
@@ -79,7 +83,7 @@ angular.module('services', [])
                         callback(null);
                     } else {
                         //TODO is there a better way to get the key?
-                        console.log(child.key);
+//                        console.log(child.key);
                         for (var key in child.val()) {
                             callback(key);
                         }
