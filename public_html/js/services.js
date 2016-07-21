@@ -103,8 +103,13 @@ angular.module('services', [])
             
             this.getCategories = function (callback){
               var catRef = firebase.database().ref('categories');
-              catRef.on('value',function(data){
-                 callback(data.val()); 
+//              catRef.on('value',function(data){
+//                 callback(data.val()); 
+                 
+                var syncObject = $firebaseObject(catRef);
+
+                catRef.on("value", function () {
+                callback(syncObject);
               });
             };
         });

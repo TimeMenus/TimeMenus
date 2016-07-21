@@ -1,0 +1,26 @@
+/*This is for loading GIF*/
+.bckgrndloadgif
+{
+    position: fixed;
+    z-index: 999;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: lightgrey;
+    opacity: 0.8;
+}
+.centerloadgif
+{
+    z-index: 1000;
+    margin: 300px auto;
+    padding: 10px;
+    width: 200px;
+    background-color: White;
+    border-radius: 10px;
+}
+.centerloadgif img
+{
+    height: 50px;
+    width: 180px;
+}

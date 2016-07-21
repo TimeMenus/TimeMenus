@@ -111,16 +111,20 @@ angular.module('controllers', ['services'])
         })
         .controller('DashboardCtrl', function ($scope, MenuService, TimeService,$firebaseObject, $firebaseArray, $firebaseAuth) {
 
+        $scope.loading = true;
             function callBack(menuKey) {
                 MenuService.getMenu(menuKey, function (menu) {
                     menu.$bindTo($scope,"menu");
+                    $scope.loading = false;
                 });
             }
 
             MenuService.getMenuKey(TimeService.getTodayDate(), callBack);
 
             MenuService.getCategories(function (categories) {
-                $scope.categories = categories;
+                categories.$bindTo($scope,"categories");
+                //$scope.categories = categories;
+                console.log(categories);
             });
 
         })
