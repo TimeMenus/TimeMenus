@@ -16,10 +16,11 @@
 
 <div class="container" ng-if="menu != null">
 
-    <div class="row" ng-repeat="(key,value) in categories">
-        <div class="col-md-4" ng-repeat="item in menu.items" >
-            <div ng-if="item.categoryId == key && item.dashboard">
-                <h2>{{value}}</h2>
+
+        <div class="col-md-4" ng-repeat="item in menu.items"  ng-if="item.dashboard">
+            <div>
+                <h2>Category</h2>
+<!--                <h2>{{value}}</h2>-->
                 <p style="text-align: center;">
                 <h4>{{item.name}}</h4> 
                 <img src="images/tmp/soup3.jpg" width="100%;"/>
@@ -27,5 +28,4 @@
                 <p><a class="btn btn-default" href="#/list/{{key}}" role="button">More &raquo;</a></p>
             </div>
         </div>
-    </div>
 </div>
