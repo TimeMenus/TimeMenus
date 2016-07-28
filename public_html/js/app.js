@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('cafe', ['ngRoute', 'controllers','ngAnimate','ui.bootstrap','firebase', 'directives']).
+angular.module('cafe', ['ngRoute', 'controllers','ngAnimate','ui.bootstrap','firebase', 'directives','ngStorage']).
         config(['$locationProvider', '$routeProvider', function ($locationProvider, $routeProvider) {
 
                 $routeProvider.when('/', {

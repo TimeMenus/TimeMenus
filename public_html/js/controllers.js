@@ -109,20 +109,26 @@ angular.module('controllers', ['services'])
 //         console.log(UserService.getUser());
 
         })
-        .controller('DashboardCtrl', function ($scope, MenuService, TimeService,$firebaseObject, $firebaseArray, $firebaseAuth) {
+        .controller('DashboardCtrl', function ($scope, MenuService, TimeService, $firebaseObject, $firebaseArray, $firebaseAuth, $sessionStorage) {
 
-        $scope.loading = true;
+            $scope.loading = true;
             function callBack(menuKey) {
-                MenuService.getMenu(menuKey, function (menu) {
-                    menu.$bindTo($scope,"menu");
+                console.log("callback " + menuKey);
+                $sessionStorage.menuKey = menuKey;
+                if (menuKey !== null) {
+                    MenuService.getMenu(menuKey, function (menu) {
+                        menu.$bindTo($scope, "menu");
+                        $scope.loading = false;
+                    });
+                }else {
                     $scope.loading = false;
-                });
+                }
             }
 
             MenuService.getMenuKey(TimeService.getTodayDate(), callBack);
 
             MenuService.getCategories(function (categories) {
-                categories.$bindTo($scope,"categories");
+                categories.$bindTo($scope, "categories");
                 //$scope.categories = categories;
                 console.log(categories);
             });

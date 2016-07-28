@@ -44,7 +44,7 @@ angular.module('services', [])
                 console.log("addItem");
                 
                 var itemsRef = firebase.database().ref('menues/'+menuKey+'/items');
-//                itemsRef.push(item);
+                itemsRef.push(item);
                 
             };
 
@@ -57,7 +57,7 @@ angular.module('services', [])
             };
 
         })
-        .service('MenuService', function ($firebaseObject) {
+        .service('MenuService', function ($firebaseObject,$sessionStorage) {
             this.createMenu = function (menu) {
                 var menuReference = firebase.database().ref('menues');
                 menuReference.push(menu);
@@ -77,6 +77,14 @@ angular.module('services', [])
             };
 
             this.getMenuKey = function (date, callback) {
+                
+                if($sessionStorage.menuKey!=null)
+                {
+                    callback($sessionStorage.menuKey);
+                }
+                else{
+                
+                
                 var menuReference = firebase.database().ref('menues');
                 menuReference.orderByChild("date").equalTo(date).on("value", function (child) {
                     if (child.val() === null) {
@@ -90,6 +98,7 @@ angular.module('services', [])
                     }
                 });
             };
+        }
 
             this.updateMenu = function (date,menu) {
                 this.getMenuKey(date,function(key){
