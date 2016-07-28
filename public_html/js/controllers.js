@@ -11,7 +11,6 @@ angular.module('controllers', ['services'])
                 console.log("not admin");
             }
 
-            ItemService.getItems();
 
         })
         .controller('AdminCtrl', function ($scope, UserService, TimeService, MenuService) {
@@ -47,6 +46,8 @@ angular.module('controllers', ['services'])
                 MenuService.updateMenu(date, $scope.menu);
 
             };
+            
+            $scope.items = MenuService.getMenu()
 
 
 
@@ -113,7 +114,6 @@ angular.module('controllers', ['services'])
 
             $scope.loading = true;
             function callBack(menuKey) {
-                console.log("callback " + menuKey);
                 $sessionStorage.menuKey = menuKey;
                 if (menuKey !== null) {
                     MenuService.getMenu(menuKey, function (menu) {
@@ -129,8 +129,6 @@ angular.module('controllers', ['services'])
 
             MenuService.getCategories(function (categories) {
                 categories.$bindTo($scope, "categories");
-                //$scope.categories = categories;
-                console.log(categories);
             });
 
         })

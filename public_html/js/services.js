@@ -42,10 +42,10 @@ angular.module('services', [])
 
             this.addItem = function (menuKey, item) {
                 console.log("addItem");
-                
-                var itemsRef = firebase.database().ref('menues/'+menuKey+'/items');
+
+                var itemsRef = firebase.database().ref('menues/' + menuKey + '/items');
                 itemsRef.push(item);
-                
+
             };
 
             this.deleteItem = function () {
@@ -57,7 +57,7 @@ angular.module('services', [])
             };
 
         })
-        .service('MenuService', function ($firebaseObject,$sessionStorage) {
+        .service('MenuService', function ($firebaseObject, $sessionStorage) {
             this.createMenu = function (menu) {
                 var menuReference = firebase.database().ref('menues');
                 menuReference.push(menu);
@@ -65,60 +65,69 @@ angular.module('services', [])
 
             this.getMenu = function (key, callback) {
 
-                var menuReference = firebase.database().ref('menues/'+key);
+                var menuReference = firebase.database().ref('menues/' + key);
                 var syncObject = $firebaseObject(menuReference);
 
                 menuReference.on("value", function () {
 
                     callback(syncObject);
                 });
-                
+
+
+            };
+
+            this.bindMenu = function ($scope) {
+
+
+
+
 
             };
 
             this.getMenuKey = function (date, callback) {
-                
-                if($sessionStorage.menuKey!=null)
+
+                if ($sessionStorage.menuKey != null)
                 {
                     callback($sessionStorage.menuKey);
                 }
-                else{
-                
-                
-                var menuReference = firebase.database().ref('menues');
-                menuReference.orderByChild("date").equalTo(date).on("value", function (child) {
-                    if (child.val() === null) {
-                        callback(null);
-                    } else {
-                        //TODO is there a better way to get the key?
-//                        console.log(child.key);
-                        for (var key in child.val()) {
-                            callback(key);
-                        }
-                    }
-                });
-            };
-        }
+                else {
 
-            this.updateMenu = function (date,menu) {
-                this.getMenuKey(date,function(key){
-                    
-                     var menuReference = firebase.database().ref('menues/'+key);
-                     menu.date=date;
+
+                    var menuReference = firebase.database().ref('menues');
+                    menuReference.orderByChild("date").equalTo(date).on("value", function (child) {
+                        if (child.val() === null) {
+                            callback(null);
+                        } else {
+                            //TODO is there a better way to get the key?
+//                        console.log(child.key);
+                            for (var key in child.val()) {
+                                callback(key);
+                            }
+                        }
+                    });
+                }
+                ;
+            }
+
+            this.updateMenu = function (date, menu) {
+                this.getMenuKey(date, function (key) {
+
+                    var menuReference = firebase.database().ref('menues/' + key);
+                    menu.date = date;
                     menuReference.update(menu);
-                    
+
                 });
             };
-            
-            this.getCategories = function (callback){
-              var catRef = firebase.database().ref('categories');
+
+            this.getCategories = function (callback) {
+                var catRef = firebase.database().ref('categories');
 //              catRef.on('value',function(data){
 //                 callback(data.val()); 
-                 
+
                 var syncObject = $firebaseObject(catRef);
 
                 catRef.on("value", function () {
-                callback(syncObject);
-              });
+                    callback(syncObject);
+                });
             };
         });
