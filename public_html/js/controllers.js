@@ -1,8 +1,10 @@
 'use strict';
 angular.module('controllers', ['services'])
-        .controller('ListCtrl', function ($scope, UserService, ItemService, MenuService) {
+        .controller('ListCtrl', function ($scope, $sessionStorage, TimeService, $routeParams, UserService, ItemService, MenuService) {
 
             $scope.admin = false;
+            $scope.todayDate = TimeService.getTodayDate();
+
 
             if (UserService.isLoggedIn()) {
                 console.log("admin");
@@ -10,7 +12,13 @@ angular.module('controllers', ['services'])
             } else {
                 console.log("not admin");
             }
-
+            $scope.categoryIdscp = $routeParams.categoryId;
+            ItemService.getItems($routeParams.categoryId, $sessionStorage.menuKey, function (data) {
+                $scope.categoryItems = data;
+            });
+            MenuService.getCategories(function (data) {
+                $scope.categories = data;
+            });
 
         })
         .controller('AdminCtrl', function ($scope, UserService, TimeService, MenuService) {
