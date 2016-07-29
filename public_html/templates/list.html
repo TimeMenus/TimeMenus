@@ -1,26 +1,28 @@
-        <div class="container" style="padding-top: 48px;">
-
-            <div class="blog-header">
-                <h1 class="blog-title">Soups</h1>
-                <p class="lead blog-description">Soups of the day</p>
-            </div>
-
-            <hr class="featurette-divider">
-
-            <div class="row featurette">
-                <div class="col-md-7 col-md-push-5">
-                    <h2 class="featurette-heading">Creamy Potato GF. 
-                        <span class="text-muted" style="font-size: 25px;" ng-class="admin ? 'glyphicon glyphicon-edit btn': ''"></span>
-                        <span class="text-muted" style="font-size: 25px;" ng-class="admin ? 'glyphicon glyphicon-remove btn': ''"></span>
-                    </h2>
-                    <p class="lead">
-                        Long grain and wild rice, celery, onions, carrots and diced chicken simmered in chicken broth embellished with cream and select herbs. 
-                        Available in cup, bowl or bread bowl.</p>
-                </div>
-                <div class="col-md-5 col-md-pull-7">
-                    <img class="featurette-image img-responsive center-block" 
-                         src="images/tmp/soup3.jpg">
-                </div>
-            </div>
-            
+<div class="container" style="padding-top: 48px;">
+    
+    <div class="row" ng-repeat="(key,value) in categories">
+            <div ng-if="categoryIdscp === key">
+            <h1 class="blog-title">{{value}}</h1>
         </div>
+    </div>
+    
+    <hr class="featurette-divider">
+
+    <div class="row featurette" ng-repeat="(key,value) in categoryItems">
+        <div ng-if="categoryIdscp === value.categoryId" >
+            <div class="col-md-7 col-md-push-5">
+                <h2 class="featurette-heading">{{value.name}}
+                    <span class="text-muted" style="font-size: 25px;" ng-class="admin ? 'glyphicon glyphicon-edit btn' : ''"></span>
+                    <span class="text-muted" style="font-size: 25px;" ng-class="admin ? 'glyphicon glyphicon-remove btn' : ''"></span>
+                </h2>
+                <p class="lead">{{value.description}}</p>
+            </div>
+            <br>
+            <div class="col-md-5 col-md-pull-7">
+                <img class="featurette-image img-responsive center-block" 
+                     src="images/tmp/soup3.jpg">
+            </div>
+        </div>
+    </div>
+
+</div>

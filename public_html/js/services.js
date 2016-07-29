@@ -34,10 +34,16 @@ angular.module('services', [])
             };
 
         })
-        .service('ItemService', function (MenuService) {
+        .service('ItemService', function (MenuService, $firebaseObject) {
 
-            this.getItems = function () {
+            this.getItems = function (categoryId,key, callback) {
+                var menuReference = firebase.database().ref('menues/' + key + '/items/');
+                var syncObject = $firebaseObject(menuReference);
 
+                menuReference.on("value", function () {
+
+                    callback(syncObject);
+                });
             };
 
             this.addItem = function (menuKey, item) {
