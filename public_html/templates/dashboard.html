@@ -19,13 +19,13 @@
 
         <div class="col-md-4" ng-repeat="item in menu.items"  ng-if="item.dashboard">
             <div>
-                <h2>Category</h2>
+                <h2>{{item.categoryId}}</h2>
 <!--                <h2>{{value}}</h2>-->
                 <p style="text-align: center;">
                 <h4>{{item.name}}</h4> 
-                <img src="images/tmp/soup3.jpg" width="100%;"/>
+                <img src="{{item.picture.url}}" width="100%;"/>
                 </p>
-                <p><a class="btn btn-default" href="#/list/{{key}}" role="button">More &raquo;</a></p>
+                <p><a class="btn btn-default" href="#/list/{{item.categoryId}}" role="button">More &raquo;</a></p>
             </div>
         </div>
 </div>

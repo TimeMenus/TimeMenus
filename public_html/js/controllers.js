@@ -46,7 +46,7 @@ angular.module('controllers', ['services'])
                 MenuService.updateMenu(date, $scope.menu);
 
             };
-            
+
             $scope.items = MenuService.getMenu()
 
 
@@ -120,7 +120,7 @@ angular.module('controllers', ['services'])
                         menu.$bindTo($scope, "menu");
                         $scope.loading = false;
                     });
-                }else {
+                } else {
                     $scope.loading = false;
                 }
             }
@@ -229,34 +229,99 @@ angular.module('controllers', ['services'])
 
 
         })
-        .controller('ItemFormCtrl', function ($scope, $uibModalInstance, categories, date, MenuService, ItemService) {
+        .controller('ItemFormCtrl', function ($scope, $uibModalInstance, categories, date, MenuService, ItemService, Upload) {
+
+            var storageRef = firebase.storage().ref();
 
             $scope.categories = categories;
+            
+            $scope.item={};
+            
+            var it={};
+
 
             $scope.ok = function () {
+//                console.log($scope.item);
+                console.log(it);
 
-                console.log("Ok Pressed");
-                $uibModalInstance.close();
+//                $uibModalInstance.close();
 
-                MenuService.getMenuKey(date, function (key) {
+                if (!it || !it.url) {
+                    console.log("Need to upload a picture")
+                } else {
+                    
+                    $scope.item.picture={};
+                    $scope.item.picture.url=it.url;
+                    $scope.item.picture.name=it.name;
 
-                    if (key === null) {
-                        console.log("need to create a menu");
+                    MenuService.getMenuKey(date, function (key) {
 
-                    } else {
-                        return ItemService.addItem(key, $scope.item, function () {
+                        if (key === null) {
+                            console.log("need to create a menu");
+
+                        } else {
+                            return ItemService.addItem(key, $scope.item, function (data) {
+                                console.log(data);
                             $uibModalInstance.close();
-                            return;
-                        });
-                    }
+//                             return;
+                            });
+                        }
 
 
-                });
+                    });
+                }
             };
 
             $scope.cancel = function () {
                 $uibModalInstance.dismiss('cancel');
             };
+
+
+            $scope.$watch('file', function () {
+
+                $scope.upload($scope.file);
+
+            });
+
+            $scope.upload = function (file) {
+
+                if (file !== undefined) {
+
+                    file = file[0];
+
+                    var metadata = {
+                        'contentType': file.type
+                    };
+
+                    var newName = generateRandomId() + '.' + file.name.split('.')[1];
+
+                    storageRef.child('images/' + newName).put(file, metadata).then(function (snapshot) {
+                        console.log('Uploaded', snapshot.totalBytes, 'bytes.');
+                        console.log(snapshot.metadata);
+                        var url = snapshot.metadata.downloadURLs[0];
+                        console.log('File available at', url);
+
+                        it.url=url;
+                        it.name=snapshot.a.name;
+
+
+                    }).catch(function (error) {
+                        console.error('Upload failed:', error);
+                    });
+                }
+            };
+
+
+            var generateRandomId = function () {
+                var text = "";
+                var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+                for (var i = 0; i < 15; i++)
+                    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+                return text;
+            };
+
         })
         .controller('ItemFormDisplayCtrl', function ($scope, $uibModal, $log, MenuService) {
 

@@ -8,7 +8,7 @@
         <fieldset class="form-group">
             <label for="itemCategory">Category</label>
             <select ng-model="item.categoryId" class="form-control" id="itemCategory">
-                <option ng-repeat="(key,value) in categories" value="{{key}}">{{ value }}</option>
+                <option ng-repeat="(key,value) in categories" value="{{key}}">{{ value}}</option>
             </select>
         </fieldset>
 
@@ -29,9 +29,15 @@
             </label>
         </div>
 
+        
+
+
         <fieldset class="form-group">
             <label for="itemPicture">Picture</label>
-            <input ng-model="item.picture" type="file" class="form-control-file" id="itemPicture">
+            <div ngf-drop ngf-select ng-model="file" class="drop-box" 
+             ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
+             accept="image/*" 
+             ngf-pattern="'image/*'">Drop image here</div>
             <small class="text-muted"></small>
         </fieldset>
 

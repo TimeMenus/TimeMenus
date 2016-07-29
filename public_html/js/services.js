@@ -41,11 +41,11 @@ angular.module('services', [])
             };
 
             this.addItem = function (menuKey, item) {
-                console.log("addItem");
-
+                
                 var itemsRef = firebase.database().ref('menues/' + menuKey + '/items');
-                itemsRef.push(item);
-
+                itemsRef.push(item).then(function(data){
+                    console.log(data.key);
+                });
             };
 
             this.deleteItem = function () {
