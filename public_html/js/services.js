@@ -23,8 +23,8 @@ angular.module('services', [])
                     return false;
                 }
             };
-
-
+            
+              
         })
         .service('TimeService', function () {
 
@@ -41,7 +41,7 @@ angular.module('services', [])
             };
 
             this.addItem = function (menuKey, item) {
-                
+
                 var itemsRef = firebase.database().ref('menues/' + menuKey + '/items');
                 itemsRef.push(item).then(function(data){
                     console.log(data.key);

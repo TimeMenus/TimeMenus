@@ -167,7 +167,7 @@ angular.module('controllers', ['services'])
                         // Handle Errors here.
                         var errorCode = error.code;
                         var errorMessage = error.message;
-                        // [START_EXCLUDE]
+                        console.log(errorMessage);
                         if (errorCode === 'auth/wrong-password') {
                             alert('Wrong password.');
                         } else {
@@ -179,12 +179,10 @@ angular.module('controllers', ['services'])
                         if (data !== undefined) {
                             console.log(data);
                             UserService.setUser(data);
-//                        $location.url('/admin');
                             loggedInTrigger();
                         }
 
                     });
-//        // [END authwithemail]
                 }
 
 
@@ -255,6 +253,9 @@ angular.module('controllers', ['services'])
                     $scope.item.picture.name=it.name;
 
                     MenuService.getMenuKey(date, function (key) {
+//                        $uibModalInstance.close();
+
+                            console.log(key);
 
                         if (key === null) {
                             console.log("need to create a menu");
@@ -266,8 +267,6 @@ angular.module('controllers', ['services'])
 //                             return;
                             });
                         }
-
-
                     });
                 }
             };
@@ -303,7 +302,7 @@ angular.module('controllers', ['services'])
 
                         it.url=url;
                         it.name=snapshot.a.name;
-
+                        
 
                     }).catch(function (error) {
                         console.error('Upload failed:', error);
