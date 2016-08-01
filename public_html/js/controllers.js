@@ -59,7 +59,7 @@ angular.module('controllers', ['services'])
 
             };
 
-            $scope.items = MenuService.getMenu();
+//            $scope.items = MenuService.getMenu();
             
              $scope.deleteItem = function(key){
               ItemService.deleteItem($sessionStorage.menuKey, key);
