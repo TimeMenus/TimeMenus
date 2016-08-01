@@ -15,13 +15,13 @@
 
     <div class="blog-header" ng-repeat="(key,value) in categories" ng-if="!createNewMenu">
         <h1 class="h3">{{value}}</h1>
-        <div ng-repeat="item in menu.items" ng-if="key === item.categoryId" style="margin-left: 40px;margin-top: 15px;">
+        <div ng-repeat="(itemKey,item) in menu.items" ng-if="key === item.categoryId" style="margin-left: 40px;margin-top: 15px;">
             <div class = "row">
                 <div>
                     <div>
                         {{item.name}} <div ng-if="item.dashboard"> (dashboard)</div>
                     </div>
-
+                     <span class="text-muted glyphicon glyphicon-remove btn" style="font-size: 25px;" ng-click="deleteItem(itemKey)"></span>
                     <a href = "#">
                         <img style="width: 120px;"  src = "{{item.picture.url}}">
                     </a>

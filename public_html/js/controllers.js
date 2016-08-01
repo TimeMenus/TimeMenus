@@ -25,7 +25,7 @@ angular.module('controllers', ['services'])
             };
 
         })
-        .controller('AdminCtrl', function ($scope, UserService, TimeService, MenuService) {
+        .controller('AdminCtrl', function ($scope, UserService, TimeService, MenuService, ItemService, $sessionStorage) {
 
             $scope.categories = [];
             $scope.createNewMenu = false;
@@ -60,66 +60,10 @@ angular.module('controllers', ['services'])
             };
 
             $scope.items = MenuService.getMenu();
-
-
-
-            var soup = {name: "Soup", discription: "Soup of the day"};
-
-//            var menu = {date: TimeService.getTodayDate(),
-//                note: "Sushi is not only delicious, but it’s also very good for you. It is a wonderful bonus to be able to eat the food you love without paying the price for your indulgence. Great claims have been made for the health benefits of the typical Japanese diet of fish and rice. For example, average life expectancy for both women and men in Japan is one of the highest in the world."
-//            };
-
-            var item = {
-                id: "1",
-                categoryId: "-KMy-TrOornKuDEgcJjB",
-                name: "Creamy Potato GF.",
-                description: ".Long grain and wild rice, celery, onions, carrots and diced chicken simmered in chicken broth embellished with cream and select herbs. Available in cup, bowl or bread bowl.",
-                photo: "",
-                special: true
+            
+             $scope.deleteItem = function(key){
+              ItemService.deleteItem($sessionStorage.menuKey, key);
             };
-
-            var items = [item];
-//            
-//            var testRef = firebase.database().ref('menues/-KMyjcM0BugW-ZorUuvt/items/0');
-//            
-//            testRef.update(item);
-//            testRef.on("child_added",function(child){
-//                console.log(child.val());
-//            });
-//            
-
-//            var menuReference = firebase.database().ref('menues');
-//            menuReference.orderByChild("date").on("child_added", function (child) {
-//                console.log(child.val());
-//            });
-//
-//            menu.items = items;
-
-//            menuReference.push(menu);
-
-//            categories.push(soup);
-//            categories.push("Entrée");
-//            categories.push("Deli");
-//            categories.push("Pasta");
-//            categories.push("Grill");
-
-
-
-//            var ref = categories.orderByValue().on("child_added",function(data){
-//                console.log(data.val());
-//            });
-//            
-//            categories.on('child_added', function (data) {
-//                console.log(data.val());
-//                $scope.categories.push(data.val());
-//            });
-
-
-//            console.log(categories);
-
-
-
-//         console.log(UserService.getUser());
 
         })
         .controller('DashboardCtrl', function ($scope, MenuService, TimeService, $firebaseObject, $firebaseArray, $firebaseAuth, $sessionStorage) {
