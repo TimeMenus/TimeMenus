@@ -138,4 +138,8 @@ angular.module('services', [])
                     callback(syncObject);
                 });
             };
+            
+            this.getCategory = function(catId){
+                
+            };
         });

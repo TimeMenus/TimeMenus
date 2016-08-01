@@ -59,7 +59,7 @@ angular.module('controllers', ['services'])
 
             };
 
-            $scope.items = MenuService.getMenu()
+            $scope.items = MenuService.getMenu();
 
 
 
@@ -142,6 +142,18 @@ angular.module('controllers', ['services'])
             MenuService.getCategories(function (categories) {
                 categories.$bindTo($scope, "categories");
             });
+            
+            $scope.categoryName =  function(id){
+                var name="Miscellaneous";
+                
+                angular.forEach($scope.categories,function(value,key){
+                    if(id === key){
+                        name=value;
+                    }
+                });
+
+             return name;   
+            };
 
         })
         .controller('LoginCtrl', function ($scope, $location, UserService) {
@@ -254,10 +266,11 @@ angular.module('controllers', ['services'])
 //                console.log($scope.item);
                 console.log(it);
 
-//                $uibModalInstance.close();
+//                
 
                 if (!it || !it.url) {
-                    console.log("Need to upload a picture")
+                    console.log("Need to upload a picture");
+                    alert("Need to upload a picture");
                 } else {
                     
                     $scope.item.picture={};
@@ -280,6 +293,8 @@ angular.module('controllers', ['services'])
                             });
                         }
                     });
+                    
+                    $uibModalInstance.close();
                 }
             };
 
