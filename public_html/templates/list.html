@@ -12,8 +12,8 @@
         <div ng-if="categoryIdscp === value.categoryId" >
             <div class="col-md-7 col-md-push-5">
                 <h2 class="featurette-heading">{{value.name}}
-                    <span class="text-muted" style="font-size: 25px;" ng-class="admin ? 'glyphicon glyphicon-edit btn' : ''"></span>
-                    <span class="text-muted" style="font-size: 25px;" ng-class="admin ? 'glyphicon glyphicon-remove btn' : ''"></span>
+                    <!--<span class="text-muted" style="font-size: 25px;" ng-click="editItem()" ng-class="admin ? 'glyphicon glyphicon-edit btn' : ''"></span>-->
+                    <span class="text-muted" style="font-size: 25px;" ng-click="deleteItem(key)" ng-class="admin ? 'glyphicon glyphicon-remove btn' : ''"></span>
                 </h2>
                 <p class="lead">{{value.description}}</p>
             </div>

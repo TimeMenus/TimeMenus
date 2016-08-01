@@ -34,9 +34,9 @@ angular.module('services', [])
             };
 
         })
-        .service('ItemService', function (MenuService, $firebaseObject) {
+        .service('ItemService', function ($firebaseObject) {
 
-            this.getItems = function (categoryId,key, callback) {
+            this.getItems = function (key, callback) {
                 var menuReference = firebase.database().ref('menues/' + key + '/items/');
                 var syncObject = $firebaseObject(menuReference);
 
@@ -54,8 +54,10 @@ angular.module('services', [])
                 });
             };
 
-            this.deleteItem = function () {
-
+            this.deleteItem = function (menuKey, key) {
+                var itemsdelRef = firebase.database().ref('menues/' + menuKey + '/items/' + key);
+                console.log(menuKey+key);
+                itemsdelRef.remove();
             };
 
             this.updateItem = function () {
