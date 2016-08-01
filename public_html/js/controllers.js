@@ -13,12 +13,16 @@ angular.module('controllers', ['services'])
                 console.log("not admin");
             }
             $scope.categoryIdscp = $routeParams.categoryId;
-            ItemService.getItems($routeParams.categoryId, $sessionStorage.menuKey, function (data) {
+            ItemService.getItems($sessionStorage.menuKey, function (data) {
                 $scope.categoryItems = data;
             });
             MenuService.getCategories(function (data) {
                 $scope.categories = data;
             });
+            
+            $scope.deleteItem = function(key){
+              ItemService.deleteItem($sessionStorage.menuKey, key);
+            };
 
         })
         .controller('AdminCtrl', function ($scope, UserService, TimeService, MenuService) {
