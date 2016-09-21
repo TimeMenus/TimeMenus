@@ -1,4 +1,4 @@
-Express Cafe Webapp
+TIME Menus
 
 
 npm start //Starts the app

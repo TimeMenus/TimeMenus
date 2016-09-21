@@ -1,7 +1,7 @@
 {
-  "name": "expresscafe",
+  "name": "timemenus",
   "version": "1.0.0",
-  "description": "Express Cafe",
+  "description": "Time Menus",
   "main": "server.js",
   "directories": {
     "test": "test"

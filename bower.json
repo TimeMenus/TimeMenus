@@ -1,6 +1,6 @@
 {
-  "name": "expresscafe",
-  "description": "Express Cafe",
+  "name": "timemenus",
+  "description": "Time Menus",
   "main": "public_html\\index.html",
   "authors": [
     "Fadi Abdin"
