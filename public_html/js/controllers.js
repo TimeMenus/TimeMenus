@@ -107,6 +107,12 @@ angular.module('controllers', ['services'])
                 authDomain: "express-cafe-a7687.firebaseapp.com",
                 databaseURL: "https://express-cafe-a7687.firebaseio.com",
                 storageBucket: "express-cafe-a7687.appspot.com"
+                
+//                    apiKey: "AIzaSyDeZSHsFD4BIYybHxdr5ugwKwLc8aC4ECU",
+//                    authDomain: "time-menus.firebaseapp.com",
+//                    databaseURL: "https://time-menus.firebaseio.com",
+//                    storageBucket: "time-menus.appspot.com",
+//                    messagingSenderId: "259542585577"
             };
 
             firebase.initializeApp(config);
@@ -325,5 +331,23 @@ angular.module('controllers', ['services'])
                 });
             };
 
+        })
+        .controller('WelcomeCtrl',function($scope,$location){
+            
+            $scope.places = ["EXPRESS DC1"];
+    
+            $scope.selectplace = function(){
+              console.log($scope.placename+" selected");  
+            };
+            
+            $scope.goto = function(){
+                console.log($scope.placename);
+                $location.url("/dashboard");
+            };
+
+            
+//    $scope.autocomplete = '';
+//    $scope.options = null;
+//    $scope.details = '';
         });
 

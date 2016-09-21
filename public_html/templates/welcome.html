@@ -1,0 +1,20 @@
+<div class="jumbotron ng-scope">
+    <div class="container">
+        <h2>Welcome to <strong>TIME</strong>Menus </h2>
+        <p style="color: #666666">Here you will find your work place cafeteria daily specials, contact the cafeteria staff and make special orders.</p>
+
+        <!--        <label class="sr-only" for="placename">Email address</label>
+                <input type="text" id="placename" placeholder="Name">
+            <button type="submit" class="btn btn-primary btn-sm">Go</button>-->
+        <div style="float: left; width: fit-content;margin-right: 4px;">
+         <autocomplete ng-model="placename" data="places" on-select="selectplace" attr-placeholder="Find your cafeteria" attr-input-class="nowidth"></autocomplete>
+        </div>
+        
+        <div style="padding: 3px;">
+            <button type="submit" class="btn btn-primary" ng-click="goto()">Go</button>
+        </div>
+        <!--<input type="text"  ng-autocomplete ng-model="autocomplete" options="options" details="details"/>-->
+
+
+    </div>
+</div>

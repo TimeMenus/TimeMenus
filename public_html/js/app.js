@@ -1,9 +1,12 @@
 'use strict';
 
-angular.module('cafe', ['ngRoute', 'controllers','ngAnimate','ui.bootstrap','firebase', 'directives','ngStorage','ngFileUpload']).
+angular.module('cafe', ['ngRoute', 'controllers','ngAnimate','ui.bootstrap','firebase', 'directives','ngStorage','ngFileUpload','ngAutocomplete','autocomplete']).
         config(['$locationProvider', '$routeProvider', function ($locationProvider, $routeProvider) {
 
                 $routeProvider.when('/', {
+                    templateUrl: 'templates/welcome.html',
+                    controller: 'WelcomeCtrl'
+                }).when('/dashboard', {
                     templateUrl: 'templates/dashboard.html',
                     controller: 'DashboardCtrl'
                 }).when('/list/:categoryId', {
