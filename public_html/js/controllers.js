@@ -103,16 +103,12 @@ angular.module('controllers', ['services'])
         .controller('LoginCtrl', function ($scope, $location, UserService) {
 
             var config = {
-                apiKey: "AIzaSyDhw6flOynYbkqkieRd8nyWkT32QDBoz8E",
-                authDomain: "express-cafe-a7687.firebaseapp.com",
-                databaseURL: "https://express-cafe-a7687.firebaseio.com",
-                storageBucket: "express-cafe-a7687.appspot.com"
                 
-//                    apiKey: "AIzaSyDeZSHsFD4BIYybHxdr5ugwKwLc8aC4ECU",
-//                    authDomain: "time-menus.firebaseapp.com",
-//                    databaseURL: "https://time-menus.firebaseio.com",
-//                    storageBucket: "time-menus.appspot.com",
-//                    messagingSenderId: "259542585577"
+                    apiKey: "AIzaSyDeZSHsFD4BIYybHxdr5ugwKwLc8aC4ECU",
+                    authDomain: "time-menus.firebaseapp.com",
+                    databaseURL: "https://time-menus.firebaseio.com",
+                    storageBucket: "time-menus.appspot.com",
+                    messagingSenderId: "259542585577"
             };
 
             firebase.initializeApp(config);
