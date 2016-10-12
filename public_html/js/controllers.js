@@ -19,9 +19,9 @@ angular.module('controllers', ['services'])
             MenuService.getCategories(function (data) {
                 $scope.categories = data;
             });
-            
-            $scope.deleteItem = function(key){
-              ItemService.deleteItem($sessionStorage.menuKey, key);
+
+            $scope.deleteItem = function (key) {
+                ItemService.deleteItem($sessionStorage.menuKey, key);
             };
 
         })
@@ -60,14 +60,19 @@ angular.module('controllers', ['services'])
             };
 
 //            $scope.items = MenuService.getMenu();
-            
-             $scope.deleteItem = function(key){
-              ItemService.deleteItem($sessionStorage.menuKey, key);
+
+            $scope.deleteItem = function (key) {
+                ItemService.deleteItem($sessionStorage.menuKey, key);
             };
 
         })
-        .controller('DashboardCtrl', function ($scope, MenuService, TimeService, $firebaseObject, $firebaseArray, $firebaseAuth, $sessionStorage) {
-
+        .controller('DashboardCtrl', function ($scope, MenuService, TimeService, $firebaseObject, $firebaseArray, $firebaseAuth, $sessionStorage,$routeParams,PlacesService) {
+            
+            PlacesService.findPlaceByCode($routeParams.placeCode,function(place){
+                console.log("Dashboard for "+place.name);
+            });
+            
+            
             $scope.loading = true;
             function callBack(menuKey) {
                 $sessionStorage.menuKey = menuKey;
@@ -86,29 +91,28 @@ angular.module('controllers', ['services'])
             MenuService.getCategories(function (categories) {
                 categories.$bindTo($scope, "categories");
             });
-            
-            $scope.categoryName =  function(id){
-                var name="Miscellaneous";
-                
-                angular.forEach($scope.categories,function(value,key){
-                    if(id === key){
-                        name=value;
+
+            $scope.categoryName = function (id) {
+                var name = "Miscellaneous";
+
+                angular.forEach($scope.categories, function (value, key) {
+                    if (id === key) {
+                        name = value;
                     }
                 });
 
-             return name;   
+                return name;
             };
 
         })
         .controller('LoginCtrl', function ($scope, $location, UserService) {
 
             var config = {
-                
-                    apiKey: "AIzaSyDeZSHsFD4BIYybHxdr5ugwKwLc8aC4ECU",
-                    authDomain: "time-menus.firebaseapp.com",
-                    databaseURL: "https://time-menus.firebaseio.com",
-                    storageBucket: "time-menus.appspot.com",
-                    messagingSenderId: "259542585577"
+                apiKey: "AIzaSyDeZSHsFD4BIYybHxdr5ugwKwLc8aC4ECU",
+                authDomain: "time-menus.firebaseapp.com",
+                databaseURL: "https://time-menus.firebaseio.com",
+                storageBucket: "time-menus.appspot.com",
+                messagingSenderId: "259542585577"
             };
 
             firebase.initializeApp(config);
@@ -202,10 +206,10 @@ angular.module('controllers', ['services'])
             var storageRef = firebase.storage().ref();
 
             $scope.categories = categories;
-            
-            $scope.item={};
-            
-            var it={};
+
+            $scope.item = {};
+
+            var it = {};
 
 
             $scope.ok = function () {
@@ -218,15 +222,15 @@ angular.module('controllers', ['services'])
                     console.log("Need to upload a picture");
                     alert("Need to upload a picture");
                 } else {
-                    
-                    $scope.item.picture={};
-                    $scope.item.picture.url=it.url;
-                    $scope.item.picture.name=it.name;
+
+                    $scope.item.picture = {};
+                    $scope.item.picture.url = it.url;
+                    $scope.item.picture.name = it.name;
 
                     MenuService.getMenuKey(date, function (key) {
 //                        $uibModalInstance.close();
 
-                            console.log(key);
+                        console.log(key);
 
                         if (key === null) {
                             console.log("need to create a menu");
@@ -234,12 +238,12 @@ angular.module('controllers', ['services'])
                         } else {
                             return ItemService.addItem(key, $scope.item, function (data) {
                                 console.log(data);
-                            $uibModalInstance.close();
+                                $uibModalInstance.close();
 //                             return;
                             });
                         }
                     });
-                    
+
                     $uibModalInstance.close();
                 }
             };
@@ -273,9 +277,9 @@ angular.module('controllers', ['services'])
                         var url = snapshot.metadata.downloadURLs[0];
                         console.log('File available at', url);
 
-                        it.url=url;
-                        it.name=snapshot.a.name;
-                        
+                        it.url = url;
+                        it.name = snapshot.a.name;
+
 
                     }).catch(function (error) {
                         console.error('Upload failed:', error);
@@ -328,20 +332,40 @@ angular.module('controllers', ['services'])
             };
 
         })
-        .controller('WelcomeCtrl',function($scope,$location){
+        .controller('WelcomeCtrl', function ($scope, $location, $localStorage,PlacesService) {
             
-            $scope.places = ["EXPRESS DC1"];
-    
-            $scope.selectplace = function(){
-              console.log($scope.placename+" selected");  
-            };
+            $scope.cafes = PlacesService.getPlaces();
             
-            $scope.goto = function(){
-                console.log($scope.placename);
-                $location.url("/dashboard");
+            if(PlacesService.getPlaces()){
+                console.log("Cafe is selected already "+$localStorage.cafe);
+                PlacesService.findPlaceByName($localStorage.cafe,function(place){
+                   $location.url("/da/"+place.code);
+               });
+           }
+            
+            $scope.places = PlacesService.getPlacesCodes();
+
+            console.log("Cafe: " + $localStorage.cafe);
+
+
+            $scope.selectplace = function () {
+
+                console.log($scope.placename + " selected");
+
             };
 
-            
+            $scope.goto = function () {
+                $localStorage.cafe = $scope.placename;
+                
+               PlacesService.findPlaceByName($scope.placename,function(place){
+                   $location.url("/da/"+place.code);
+               });
+                
+//                console.log($scope.placename);
+//                $location.url("/dashboard");
+            };
+
+
 //    $scope.autocomplete = '';
 //    $scope.options = null;
 //    $scope.details = '';

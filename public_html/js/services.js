@@ -23,8 +23,8 @@ angular.module('services', [])
                     return false;
                 }
             };
-            
-              
+
+
         })
         .service('TimeService', function () {
 
@@ -49,20 +49,67 @@ angular.module('services', [])
             this.addItem = function (menuKey, item) {
 
                 var itemsRef = firebase.database().ref('menues/' + menuKey + '/items');
-                itemsRef.push(item).then(function(data){
+                itemsRef.push(item).then(function (data) {
                     console.log(data.key);
                 });
             };
 
             this.deleteItem = function (menuKey, key) {
                 var itemsdelRef = firebase.database().ref('menues/' + menuKey + '/items/' + key);
-                console.log(menuKey+key);
+                console.log(menuKey + key);
                 itemsdelRef.remove();
             };
 
             this.updateItem = function () {
 
             };
+
+        })
+        .service("PlacesService", function ($localStorage) {
+            
+            
+            this.savePlace = function(){
+                
+            };
+            
+            this.deletePlace = function(){
+                
+            };
+            
+            this.getPlace = function(){
+                $localStorage.cafe;
+            };
+
+            this.getPlaces = function () {
+                return [
+                    {"code": "EXPRESS_DC1", "name": "EXPRESS DC1"}
+                ];
+            };
+            this.findPlaceByCode = function (placeCode,callback) {
+                angular.forEach(this.getPlaces(),function(place){
+                 if(placeCode === place.code){
+                     
+                     callback(place);
+                 }    
+                });
+            };
+            this.findPlaceByName = function (placeName,callback) {
+                 angular.forEach(this.getPlaces(),function(place){
+                 if(placeName === place.name){
+                     
+                     callback(place);
+                 }    
+                });
+            };
+            this.getPlacesCodes = function () {
+
+                var places = [];
+                angular.forEach(this.getPlaces(), function (place) {
+                    places.push(place.name);
+                });
+                return places;
+            };
+
 
         })
         .service('MenuService', function ($firebaseObject, $sessionStorage) {
@@ -97,8 +144,7 @@ angular.module('services', [])
                 if ($sessionStorage.menuKey != null)
                 {
                     callback($sessionStorage.menuKey);
-                }
-                else {
+                } else {
 
 
                     var menuReference = firebase.database().ref('menues');
@@ -138,8 +184,8 @@ angular.module('services', [])
                     callback(syncObject);
                 });
             };
-            
-            this.getCategory = function(catId){
-                
+
+            this.getCategory = function (catId) {
+
             };
         });
