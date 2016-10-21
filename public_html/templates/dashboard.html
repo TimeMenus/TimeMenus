@@ -9,7 +9,7 @@
 
 <div class="jumbotron" style="background: white; text-align: center;" ng-if="menu == null">
     <div class="container">
-        
+
         <p>Today's menu is not here yet, come back later. </p>             
     </div>
 </div>
@@ -17,15 +17,20 @@
 <div class="container" ng-if="menu != null">
 
 
-        <div class="col-md-4" ng-repeat="item in menu.items"  ng-if="item.dashboard">
-            <div>
+    <div class="col-md-4" ng-repeat="item in menu.items"  ng-if="item.dashboard" style="">
+        <div>
+            <p style="text-align: center;">
+            <div style="height: 110px;">
                 <h2>{{categoryName(item.categoryId)}}</h2>
-<!--                <h2>{{value}}</h2>-->
-                <p style="text-align: center;">
+
+                
                 <h4>{{item.name}}</h4> 
-                <img src="{{item.picture.url}}" width="100%;"/>
-                </p>
-                <p><a class="btn btn-default" href="#/list/{{item.categoryId}}" role="button">More &raquo;</a></p>
             </div>
+            <div style="height: 300px;display: block;">
+                <img src="{{item.picture.url}}" style="width: 100%; height: inherit; object-fit: cover;"/>
+            </div>
+            </p>
+            <p><a class="btn btn-default" href="#/list/{{item.categoryId}}" role="button">More &raquo;</a></p>
         </div>
+    </div>
 </div>

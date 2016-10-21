@@ -141,7 +141,7 @@ angular.module('services', [])
 
             this.getMenuKey = function (date, callback) {
 
-                if ($sessionStorage.menuKey != null)
+                if ($sessionStorage.menuKey !== null)
                 {
                     callback($sessionStorage.menuKey);
                 } else {
@@ -161,7 +161,7 @@ angular.module('services', [])
                     });
                 }
                 ;
-            }
+            };
 
             this.updateMenu = function (date, menu) {
                 this.getMenuKey(date, function (key) {

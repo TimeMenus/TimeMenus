@@ -66,8 +66,10 @@ angular.module('controllers', ['services'])
             };
 
         })
-        .controller('DashboardCtrl', function ($scope, MenuService, TimeService, $firebaseObject, $firebaseArray, $firebaseAuth, $sessionStorage,$routeParams,PlacesService) {
+        .controller('DashboardCtrl', function ($scope, MenuService, TimeService, $sessionStorage,$routeParams,PlacesService) {
             
+            $sessionStorage.menuKey=null;
+    
             PlacesService.findPlaceByCode($routeParams.placeCode,function(place){
                 console.log("Dashboard for "+place.name);
             });
