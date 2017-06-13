@@ -37,7 +37,7 @@ angular.module('services', [])
         .service('ItemService', function ($firebaseObject) {
 
             this.getItems = function (key, callback) {
-                var menuReference = firebase.database().ref('menues/' + key + '/items/');
+                var menuReference = firebase.database().ref('cafes/EXPRESSDC1/menues/' + key + '/items/');
                 var syncObject = $firebaseObject(menuReference);
 
                 menuReference.on("value", function () {
@@ -48,14 +48,14 @@ angular.module('services', [])
 
             this.addItem = function (menuKey, item) {
 
-                var itemsRef = firebase.database().ref('menues/' + menuKey + '/items');
+                var itemsRef = firebase.database().ref('cafes/EXPRESSDC1/menues/' + menuKey + '/items');
                 itemsRef.push(item).then(function (data) {
                     console.log(data.key);
                 });
             };
 
             this.deleteItem = function (menuKey, key) {
-                var itemsdelRef = firebase.database().ref('menues/' + menuKey + '/items/' + key);
+                var itemsdelRef = firebase.database().ref('cafes/EXPRESSDC1/menues/' + menuKey + '/items/' + key);
                 console.log(menuKey + key);
                 itemsdelRef.remove();
             };
@@ -114,13 +114,13 @@ angular.module('services', [])
         })
         .service('MenuService', function ($firebaseObject, $sessionStorage) {
             this.createMenu = function (menu) {
-                var menuReference = firebase.database().ref('menues');
+                var menuReference = firebase.database().ref('cafes/EXPRESSDC1/menues');
                 menuReference.push(menu);
             };
 
             this.getMenu = function (key, callback) {
 
-                var menuReference = firebase.database().ref('menues/' + key);
+                var menuReference = firebase.database().ref('cafes/EXPRESSDC1/menues/' + key);
                 var syncObject = $firebaseObject(menuReference);
 
                 menuReference.on("value", function () {
@@ -147,7 +147,7 @@ angular.module('services', [])
                 } else {
 
 
-                    var menuReference = firebase.database().ref('menues');
+                    var menuReference = firebase.database().ref('cafes/EXPRESSDC1/menues');
                     menuReference.orderByChild("date").equalTo(date).on("value", function (child) {
                         if (child.val() === null) {
                             callback(null);
@@ -166,7 +166,7 @@ angular.module('services', [])
             this.updateMenu = function (date, menu) {
                 this.getMenuKey(date, function (key) {
 
-                    var menuReference = firebase.database().ref('menues/' + key);
+                    var menuReference = firebase.database().ref('cafes/EXPRESSDC1/menues/' + key);
                     menu.date = date;
                     menuReference.update(menu);
 
@@ -174,7 +174,7 @@ angular.module('services', [])
             };
 
             this.getCategories = function (callback) {
-                var catRef = firebase.database().ref('categories');
+                var catRef = firebase.database().ref('cafes/EXPRESSDC1/categories');
 //              catRef.on('value',function(data){
 //                 callback(data.val()); 
 

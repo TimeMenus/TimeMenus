@@ -18,6 +18,9 @@ angular.module('cafe', ['ngRoute', 'controllers','ngAnimate','ui.bootstrap','fir
                 }).when('/admin', {
                     templateUrl: 'templates/admin.html',
                     controller: 'AdminCtrl'
+                }).when('/privacy', {
+                    templateUrl: 'templates/privacy.html',
+                    controller: 'TESTCtrl'
                 }).otherwise({
                     redirectTo: '/'
                 });
